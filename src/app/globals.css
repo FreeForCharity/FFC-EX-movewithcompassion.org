@@ -44,7 +44,8 @@ body {
 #header {
   font-family: var(--font-open-sans), sans-serif !important;
 }
-#aria-font {
+#aria-font,
+.aria-font {
   font-family: var(--font-open-sans), sans-serif !important;
 }
 #lato-font,

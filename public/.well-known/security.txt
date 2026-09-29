@@ -5,9 +5,11 @@
 # Expires must be a future RFC 3339 datetime. The included GitHub Action opens
 # an issue when the date gets close.
 #
-# Project-site Canonical lines include the GitHub Pages base path used when the
-# template is served without a custom domain. Root Canonical lines cover custom
-# domains. The drift checker enforces matching payloads.
+# One deploy serves one origin+prefix. With no public/CNAME this site is served
+# from the GitHub Pages project path, so only those Canonical/Policy/
+# Acknowledgments lines are listed; at custom-domain cutover replace them with
+# the domain's root URLs. scripts/check-drift.mjs derives which variant it
+# expects from public/CNAME and enforces matching payloads.
 
 Contact: mailto:info@movewithcompassion.org
 Expires: 2027-12-31T00:00:00.000Z

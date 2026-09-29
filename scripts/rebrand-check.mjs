@@ -112,7 +112,9 @@ async function checkSiteConfig() {
 // The GTM container ID is FFC's REAL container — leaving it sends the fork's
 // analytics to Free For Charity. Flag it loudly.
 async function checkAnalyticsConfig() {
-  const rel = 'src/components/google-tag-manager/index.tsx'
+  // The container id lives in src/lib/analytics.config.ts (shared by the GTM
+  // component and the privacy policy's analytics disclosure).
+  const rel = 'src/lib/analytics.config.ts'
   const cfg = await readText(rel)
   if (cfg === null) return
   if (cfg.includes('GTM-TQ5H8HPR')) {

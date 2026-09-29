@@ -116,8 +116,8 @@ export type SiteConfig = {
    * `https://your-domain.org/<repo>/page/`, an address neither host serves,
    * and a link checker reports the site's own pages as broken. Measured on
    * FFC-EX-neurospike.org, where 13 of 15 reported broken links were exactly
-   * this. scripts/check-drift.mjs (checkDeployOrigin) now fails on either half
-   * of the cutover being done without the other.
+   * this. scripts/check-drift.mjs (checkSecurityTxtSync) derives the expected
+   * security.txt URLs from this value and public/CNAME.
    *
    * Used by metadataBase, sitemap, robots and security.txt.
    */

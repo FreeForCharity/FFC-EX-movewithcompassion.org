@@ -29,7 +29,7 @@ const warnings = []
 const KEBAB_CASE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const APP_RESERVED = new Set(['api', '_components', '_lib'])
 const PLACEHOLDER_HOST = 'ffcworkingsite1.org'
-const GITHUB_PAGES_PROJECT_PATH = '/FFC-IN-Footer_Only_Template'
+const GITHUB_PAGES_PROJECT_PATH = '/FFC-EX-movewithcompassion.org'
 const SECURITY_TXT_RFC3339 =
   /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(Z|[+-]\d{2}:\d{2})$/
 
@@ -538,17 +538,19 @@ async function checkSecurityTxtSync(siteConfig) {
 
   if (!siteConfig?.url) return
   const origin = siteConfig.url.replace(/\/$/, '')
+  // One deploy serves ONE origin+prefix (ported from FFC-IN-Footer_Only_Template):
+  // public/CNAME present -> the custom domain, no base path; absent -> the
+  // GitHub Pages project path. Requiring both variants would force a
+  // Canonical URL that no host serves.
+  const cname = (await readIfExists(join(PUBLIC_DIR, 'CNAME')))?.trim()
+  const prefix = cname ? '' : GITHUB_PAGES_PROJECT_PATH
   const expectedLines = [
     siteConfig.contactEmail ? `Contact: mailto:${siteConfig.contactEmail}` : null,
     'Preferred-Languages: en',
-    `Canonical: ${origin}/.well-known/security.txt`,
-    `Canonical: ${origin}/security.txt`,
-    `Canonical: ${origin}${GITHUB_PAGES_PROJECT_PATH}/.well-known/security.txt`,
-    `Canonical: ${origin}${GITHUB_PAGES_PROJECT_PATH}/security.txt`,
-    `Policy: ${origin}${siteConfig.vulnerabilityDisclosurePath}`,
-    `Policy: ${origin}${GITHUB_PAGES_PROJECT_PATH}${siteConfig.vulnerabilityDisclosurePath}`,
-    `Acknowledgments: ${origin}/security-acknowledgements`,
-    `Acknowledgments: ${origin}${GITHUB_PAGES_PROJECT_PATH}/security-acknowledgements`,
+    `Canonical: ${origin}${prefix}/.well-known/security.txt`,
+    `Canonical: ${origin}${prefix}/security.txt`,
+    `Policy: ${origin}${prefix}${siteConfig.vulnerabilityDisclosurePath}`,
+    `Acknowledgments: ${origin}${prefix}/security-acknowledgements`,
   ].filter(Boolean)
 
   for (const line of expectedLines) {
